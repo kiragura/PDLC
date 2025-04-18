@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "local-talking-llm"
+name = "pdlc"
 version = "0.1.0"
 description = ""
-authors = ["Duy Huynh <vndee.huynh@gmail.com>"]
+authors = ["Kiran Gurajala <kiran.gurajala@searce.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

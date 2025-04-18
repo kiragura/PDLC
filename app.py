@@ -9,15 +9,35 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
 from langchain.prompts import PromptTemplate
 from langchain_community.llms import Ollama
-from tts import TextToSpeechService
+#from tts import TextToSpeechService
 
 console = Console()
 stt = whisper.load_model("base.en")
-tts = TextToSpeechService()
+#tts = TextToSpeechService()
 
 template = """
-You are a helpful and friendly AI assistant. You are polite, respectful, and aim to provide concise responses of less 
-than 20 words.
+You will generate a concise one-page expert-level product development lifecycle document in markdown format based on the provided transcribed audio. The input will be a verbal description of a product, feature, or platform intended for development in software engineering.
+
+Here’s how to structure your response:
+
+1. **Introduction**: Begin by summarizing the key points from the transcribed audio. This should include the main goals and objectives of the product, feature, or platform being developed. Keep this section brief and to the point.
+
+2. **Product Development Lifecycle**: Outline the main stages of the product development lifecycle as they relate to software engineering. The stages to include are:
+   - Concept/Ideation
+   - Planning
+   - Design
+   - Development
+   - Testing
+   - Deployment
+   - Maintenance
+
+3. **Basic Roadmap**: Based on the details provided in the transcribed audio, create a roadmap that outlines key milestones and deliverables for each stage of the product development lifecycle. Format this roadmap as bullet points for clarity.
+
+4. **Markdown Format**: Ensure that the entire document is formatted correctly in markdown. Use headers (e.g., # for main headings, ## for subheadings) to organize the content. 
+
+5. **Word Limit**: Keep the entire document under 500 words. Be concise and focus on delivering expert-level insights without unnecessary elaboration.
+
+Once you have structured the document, write your final output in the specified markdown format.
 
 The conversation transcript is as follows:
 {history}
@@ -31,7 +51,7 @@ chain = ConversationChain(
     prompt=PROMPT,
     verbose=False,
     memory=ConversationBufferMemory(ai_prefix="Assistant:"),
-    llm=Ollama(),
+    llm=Ollama(model="llama3.2"),
 )
 
 
@@ -137,10 +157,10 @@ if __name__ == "__main__":
 
                 with console.status("Generating response...", spinner="earth"):
                     response = get_llm_response(text)
-                    sample_rate, audio_array = tts.long_form_synthesize(response)
+                    #sample_rate, audio_array = tts.long_form_synthesize(response)
 
                 console.print(f"[cyan]Assistant: {response}")
-                play_audio(sample_rate, audio_array)
+                #play_audio(sample_rate, audio_array)
             else:
                 console.print(
                     "[red]No audio recorded. Please ensure your microphone is working."
